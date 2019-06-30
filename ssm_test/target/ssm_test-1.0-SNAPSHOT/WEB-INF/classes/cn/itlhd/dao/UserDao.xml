@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itlhd.dao.UserDao">
+    <!-- 分页查询所有数据 -->
+    <select id="selectByCondition" parameterType="string" resultType="cn.itlhd.pojo.User">
+        SELECT * from user
+        <if test="username != null and username.length > 0">
+            where username =#{username1}
+        </if>
+    </select>
+
+    <select id="findAll" resultType="cn.itlhd.pojo.User">
+        SELECT * from user
+    </select>
+
+    <select id="findUserById" resultType="cn.itlhd.pojo.User">
+        SELECT * FROM user where id= #{id}
+    </select>
+
+    <!-- 添加用戶功能 -->
+    <insert id="add" parameterType="cn.itlhd.pojo.User">
+      INSERT INTO USER(username,birthday,sex,address) VALUES
+      (#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <!-- 刪除賬戶 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+
+    <!-- 修改用戶信息 -->
+    <update id="edit" parameterType="cn.itlhd.pojo.User">
+        UPDATE user
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+</mapper>

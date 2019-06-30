@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--开启包扫描-->
+    <context:component-scan base-package="cn.itlhd.controller"/>
+
+    <!--注册视图解析器; 把逻辑视图"success" 映射成物理视图 /WEB-INF/pages/success.jsp-->
+  <!--  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".html"/>
+    </bean>-->
+
+    <!--springmvc默认jackjson转返回对象（换一种方式fastjson） @RestController =@Controller+@ResponseBody-->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json"/>
+                <property name="features">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>WriteDateUseDateFormat</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 注册拦截器 -->
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            &lt;!&ndash;  <bean class="cn.lzc.interceptor.CustomInterceptor"></bean>&ndash;&gt;&lt;!&ndash;拦截所有请求&ndash;&gt;
+
+            &lt;!&ndash; <mvc:interceptor>
+                <mvc:mapping path="/**"/>
+                <mvc:exclude-mapping path="/" /><&lt;!&ndash;配置了mapping 这个 将不再起作用&ndash;&gt;
+                <bean class="cn.lzc.interceptor.CustomInterceptor"></bean>
+            </mvc:interceptor>&ndash;&gt;
+
+            &lt;!&ndash;<mvc:interceptor>&ndash;&gt;
+            &lt;!&ndash;<mvc:mapping path="/hello" />&lt;!&ndash;配置拦截hello结尾的&ndash;&gt;&ndash;&gt;
+            &lt;!&ndash;<bean class="cn.lzc.interceptor.CustomInterceptor"/>&ndash;&gt;
+            &lt;!&ndash;</mvc:interceptor>&ndash;&gt;
+            &lt;!&ndash; 哪些方法进行拦截 &ndash;&gt;
+            <mvc:mapping path="/**"/>
+            &lt;!&ndash; 哪些方法不进行拦截
+        <mvc:exclude-mapping path=""/>
+        &ndash;&gt;
+            <mvc:exclude-mapping path="/login.action"/>
+
+            &lt;!&ndash; 注册拦截器对象 &ndash;&gt;
+            <bean class="cn.itlhd.interceptor.UserInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+-->
+    <!--放行静态资源-->
+   <!-- <mvc:default-servlet-handler/>-->
+
+
+    <!--导入spring配置文件-->
+    <import resource="classpath:applicationContext.xml"/>
+</beans>
